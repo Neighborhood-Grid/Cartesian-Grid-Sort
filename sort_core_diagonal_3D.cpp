@@ -1,3 +1,7 @@
+//cl /O2 /openmp /EHsc /std:c++17 sort_core_diagonal_3D.cpp
+//>> .\sort_core_diagonal_3D.exe
+
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -8,6 +12,7 @@
 #include <omp.h>
 #include <fstream>
 
+// Define 3D points
 struct Point {
     double x, y, z;
     int id;
@@ -158,6 +163,7 @@ int main() {
     double total = std::chrono::duration<double>(t1 - t0).count();
 
     std::cout << "\n=== Summary ===\n";
+    std::cout << "Number of points : " << NNN << "\n";
     std::cout << "Iterations completed : " << iterations << "\n";
     std::cout << "Total time           : " << std::fixed << std::setprecision(2) << total << " s\n";
     std::cout << "Remaining disorder   : " << std::setprecision(2)
