@@ -139,8 +139,3 @@ In their framework, the multi-index structure corresponds to what they call a **
 [3] Skrodzki, Reitebuch, Polthier, "Combinatorial and Asymptotical Results on the Neighborhood Grid", arXiv:1710.03435, 2018.
 (Published in: Skrodzki, PhD thesis, Freie Universität Berlin, 2019.)
 
-[1] Joselli et al., SBGAMES 2009.
-[2] Joselli et al., *Journal of Parallel and Distributed Computing*, 2015.
-[3] Skrodzki, Reitebuch, Polthier, arXiv:1710.03435, 2018.
-(Published in: Skrodzki, PhD thesis, Freie Universität Berlin, 2019.)
-
