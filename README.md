@@ -128,9 +128,16 @@ The idea of `Cartesian grid sort` is simple: loop over 1D Cartesian projections 
 
 ## Note: Theoretical Background
 
-Cartesian Grid Sort was implemented independently as a research project, starting from a concrete practical problem involving massive neighborhood queries. It turns out, however, that the problem has also been studied from a theoretical perspective: the data structure resented in this project was introduced by Joselli et al. [1, 2] and formally analyzed by Skrodzki, Reitebuch, and Polthier [3]. Both are particularly interesting resources, and their reading is highly recommended for readers interested in the mathematical aspects of the method.
+Cartesian Grid Sort was implemented independently as a research project, starting from a concrete practical problem involving massive neighborhood queries. It turns out, however, that the problem has also been studied from a theoretical perspective: the data structure presented in this project was introduced by Joselli et al. [1, 2] and formally analyzed by Skrodzki, Reitebuch, and Polthier [3]. Both are particularly interesting resources, and their reading is highly recommended for readers interested in the mathematical aspects of the method.
 
-In their framework, the multi-index structure corresponds to what they call a **Neighborhood Grid**, and the monotonicity property along the Cartesian axes a **stable state**.
+In their framework, the multi-index structure corresponds to what they call a **Neighborhood Grid** [3, Section 2.1], and the monotonicity property along the Cartesian axes a **stable state** [3, Definition 1].
+
+[1] Joselli et al., "A Neighborhood Grid Data Structure for Massive 3D Crowd Simulation on GPU", *VIII Brazilian Symposium on Games and Digital Entertainment (SBGames)*, IEEE, 2009, pp. 121–131.
+
+[2] Joselli et al., "Neighborhood Grid: A Novel Data Structure for Fluids Animation with GPU Computing", *Journal of Parallel and Distributed Computing*, vol. 75, 2015, pp. 20–28.
+
+[3] Skrodzki, Reitebuch, Polthier, "Combinatorial and Asymptotical Results on the Neighborhood Grid", arXiv:1710.03435, 2018.
+(Published in: Skrodzki, PhD thesis, Freie Universität Berlin, 2019.)
 
 [1] Joselli et al., SBGAMES 2009.
 [2] Joselli et al., *Journal of Parallel and Distributed Computing*, 2015.
