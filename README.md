@@ -125,3 +125,15 @@ The idea of `Cartesian grid sort` is simple: loop over 1D Cartesian projections 
 - **Neighborhood preservation.** Points close in space land close in the grid. Concrete experimental results on a 1M-point 2D dataset (France map distribution 🗼):
   - Requesting a 11×11 square window  arround a query point [i,j]: [i-5:i+6, j-5:j+6] = 0.01% of candidates → recovers ~97% of the physical nearest neighbors
   - Requesting a 31×31 square window ([i-15:i+16, j-15:j+16] = 0.1% of candidates) → recovers ~99.5%
+
+## Note: Theoretical Background
+
+Cartesian Grid Sort was implemented independently as a research project, starting from a concrete practical problem involving massive neighborhood queries. It turns out, however, that the problem has also been studied from a theoretical perspective: the data structure resented in this project was introduced by Joselli et al. [1, 2] and formally analyzed by Skrodzki, Reitebuch, and Polthier [3]. Both are particularly interesting resources, and their reading is highly recommended for readers interested in the mathematical aspects of the method.
+
+In their framework, the multi-index structure corresponds to what they call a **Neighborhood Grid**, and the monotonicity property along the Cartesian axes a **stable state**.
+
+[1] Joselli et al., SBGAMES 2009.
+[2] Joselli et al., *Journal of Parallel and Distributed Computing*, 2015.
+[3] Skrodzki, Reitebuch, Polthier, arXiv:1710.03435, 2018.
+(Published in: Skrodzki, PhD thesis, Freie Universität Berlin, 2019.)
+
