@@ -4,9 +4,9 @@
 <img src="cartesian_sort_illust.png" />
 </p>
 
-This repository illustrates the core cartesian grid sort procedure of the [`SquareNet`](https://github.com/Space-filling-net/SquareNet) ❒ gridification engine for demonstration purposes.
+This repository illustrates the core cartesian grid sort procedure of the [`SquareNet`](https://github.com/Neighborhood-Grid/SquareNet) ❒ gridification engine for demonstration purposes.
 
-It showcases the live progress of the grid sorting algorithm and includes an [animated GIF](https://github.com/Space-filling-net/Cartesian-Grid-Sort/blob/main/sort.gif) alongside the simple Python script used to generate it, as well as both the full python (slow, simple) and C++ implementation (optimized).
+It showcases the live progress of the grid sorting algorithm and includes an [animated GIF](https://github.com/Neighborhood-Grid/Cartesian-Grid-Sort/blob/main/sort.gif) alongside the simple Python script used to generate it, as well as both the full python (slow, simple) and C++ implementation (optimized).
 
 <p align="center">
 <img src="cartesian_sort_illust2.png" />
@@ -16,7 +16,7 @@ It showcases the live progress of the grid sorting algorithm and includes an [an
 
 ## Quick Start
 
-The `Cartesian Grid Sort` allows to structure arbitrary point clouds as a multi-dimensional grid 𝄜. The algorithm is quite simple once one gets the main idea and could be reused in various contexts where a spatially coherent multi index structure can be useful. Note that end users should rather refer to SquareNet gridfication package itself (see for example this [tutorial](https://github.com/Space-filling-net/SquareNet/blob/main/00_getting_started.ipynb), or this [benchmark](https://github.com/Space-filling-net/SquareNet/blob/main/benchmark/squarenet_benchmark_kdtree.ipynb) with kd-tree) which simply requires to 
+The `Cartesian Grid Sort` allows to structure arbitrary point clouds as a multi-dimensional grid 𝄜. The algorithm is quite simple once one gets the main idea and could be reused in various contexts where a spatially coherent multi index structure can be useful. Note that end users should rather refer to SquareNet gridfication package itself (see for example this [tutorial](https://github.com/Neighborhood-Grid/SquareNet/blob/main/00_getting_started.ipynb), or this [benchmark](https://github.com/Neighborhood-Grid/SquareNet/blob/main/benchmark/squarenet_benchmark_kdtree.ipynb) with kd-tree) which simply requires to 
 ```python
 pip install squarenet
 ```
