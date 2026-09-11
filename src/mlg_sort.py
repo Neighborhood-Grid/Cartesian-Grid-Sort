@@ -183,7 +183,7 @@ def sort_loop(loop, directions, shape, n_iter):
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-def monotonic_lagrangian_argsort(X, shape, level, n_iter = 50, eps=1e-10, init = "kdtree"):
+def monotonic_lagrangian_argsort(X, shape, level, n_iter = 50, eps=1e-10):
     """Compute a multi-directional sorted ordering of point cloud `X`.
 
     Parameters
@@ -199,17 +199,13 @@ def monotonic_lagrangian_argsort(X, shape, level, n_iter = 50, eps=1e-10, init =
     X[order].reshape(*shape, D) is a monotonic sorted grid
     converged : bool
     """
-    if init == "kdtree":
-        print("performing kdtree initialisation...")
-        X = X[kdtree_order(X, shape = shape)]
-        print("done")
     directions = np.vstack(direction_blocks(level=level, dim=X.shape[-1])).astype(np.float64)
     rng = np.random.default_rng(42)
     loop = build_monotonic_lagrangian_loop(X.astype(np.float64) + eps * rng.random(X.shape), directions)
     return sort_loop(loop, directions, shape, n_iter)
 
 
-def monotonic_lagrangian_sort(X, shape, level = 1, inplace=False, n_iter = 50):
+def monotonic_lagrangian_sort(X, shape, level = 1, init = "kdtree", inplace=False, n_iter = 50):
     """Sort point cloud `X` using the monotonic lagrangian algorithm.
 
     Parameters
@@ -224,7 +220,14 @@ def monotonic_lagrangian_sort(X, shape, level = 1, inplace=False, n_iter = 50):
     such that X_sorted.reshape(*shape, D) is a monotonic sorted grid
     converged : bool
     """
-    order, converged = monotonic_lagrangian_argsort(X, shape, level = level, n_iter = n_iter)
+    if init == "kdtree":
+            print("performing kdtree initialisation...")
+            order = kdtree_order(X, shape = shape)
+            print("done")
+    else:
+        order = np.arange(len(X))
+    ordernew, converged = monotonic_lagrangian_argsort(X[order], shape, level = level, n_iter = n_iter)
+    order = order[ordernew]
     if not converged:
         if level >= 2:
             ordernew, converged = monotonic_lagrangian_argsort(
