@@ -1,5 +1,6 @@
 import numpy as np
 from numba import njit
+from .kdtree_helper import kdtree_order
 
 
 # ── Direction helpers ─────────────────────────────────────────────────────────
@@ -182,7 +183,7 @@ def sort_loop(loop, directions, shape, n_iter):
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-def monotonic_lagrangian_argsort(X, shape, level, n_iter = 50, eps=1e-10):
+def monotonic_lagrangian_argsort(X, shape, level, n_iter = 50, eps=1e-10, init = "kdtree"):
     """Compute a multi-directional sorted ordering of point cloud `X`.
 
     Parameters
@@ -198,6 +199,10 @@ def monotonic_lagrangian_argsort(X, shape, level, n_iter = 50, eps=1e-10):
     X[order].reshape(*shape, D) is a monotonic sorted grid
     converged : bool
     """
+    if init == "kdtree":
+        print("performing kdtree initialisation...")
+        X = X[kdtree_order(X, shape = shape)]
+        print("done")
     directions = np.vstack(direction_blocks(level=level, dim=X.shape[-1])).astype(np.float64)
     rng = np.random.default_rng(42)
     loop = build_monotonic_lagrangian_loop(X.astype(np.float64) + eps * rng.random(X.shape), directions)
