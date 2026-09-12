@@ -1,15 +1,15 @@
 # Cartesian Grid Sort Algorithm
 
 <p align="center">
-<img src="cartesian_sort_illust.png" />
+<img src="plots/cartesian_sort_illust.png" />
 </p>
 
 This repository illustrates the core cartesian grid sort procedure of the [`SquareNet`](https://github.com/Neighborhood-Grid/SquareNet) ❒ gridification engine for demonstration purposes.
 
-It showcases the live progress of the grid sorting algorithm and includes an [animated GIF](https://github.com/Neighborhood-Grid/Cartesian-Grid-Sort/blob/main/sort.gif) alongside the simple Python script used to generate it, as well as both the full python (slow, simple) and C++ implementation (optimized).
+It showcases the live progress of the grid sorting algorithm in an [animated GIF](https://github.com/Neighborhood-Grid/Cartesian-Grid-Sort/blob/main/plots/sort.gif) alongside the full python and C++ implementation of the grid sorting algorithm.
 
 <p align="center">
-<img src="cartesian_sort_illust2.png" />
+<img src="plots/cartesian_sort_illust2.png" />
 </p>
 
 ---
@@ -22,26 +22,22 @@ pip install squarenet
 ```
 
 Regarding this auxiliary repository:
-- Run `main.py` to reproduce the quick visual animated demo that showcases gridification in progress.
-- Feel free to look at what's inside `sort.py` (not optimized, for illustration purposes) to fully understand how the algorithm works.
-- See `sort_core.cpp` for a C++ optimized version (multi-threaded).  
+- Run `notebook.ipynb` to test the algorithm on various 2D and 3D exemples.
+- See the`cpp` folder for C++ optimized versions (multi-threaded).  
   It achieves **< 200 ms** on 1 million 2D points (tested on an old Ryzen 3 3250U). To reproduce the experiment:
 
 **Windows (MSVC):**
 ```powershell
-cl /O2 /openmp /EHsc /std:c++17 sort_core.cpp
+cl /O2 /openmp /EHsc /std:c++17 cpp\sort_core.cpp
 .\sort_core.exe
 ```
 **Linux/macOS:**
 ```Bash
-g++ -O3 -fopenmp -std=c++17 sort_core.cpp -o sort_core
+g++ -O3 -fopenmp -std=c++17 cpp/sort_core.cpp -o sort_core
 # or
-clang++ -O3 -fopenmp -std=c++17 sort_core.cpp -o sort_core
+clang++ -O3 -fopenmp -std=c++17 cpp/sort_core.cpp -o sort_core
 ./sort_core
 ```
-
-- See `sort_core_diagonal.cpp` for the generalised cartesian sort algorithm (including diagonal sort).
-roughly 5 times slower than the basic approach, but improves the resulting grid.
 
 ## Algorithm (2D Version)
 
@@ -102,9 +98,12 @@ The transport energy of the grid is therefore a monovariant, garanteeing mathema
 
 ## Grid versus tree & link to KDTree
 
-There is an interesting parallel to draw between the data structure that `Cartesian Grid Sort` produces (a spatially coherent, monotonic multi index) and standard `KDTree` 🌲 data structure. In fact, in cases where N is an exact power of 2, the `KDTree` recursive  partitioning path of each point of the cloud (left-down-left-up-right-up...) can directly be converted to a [i, j] multi-index, and it turns out that the corresponding grid $(x_{ij}, y_{ij})$ will already be sorted (x coordinate increasing along i and y coordinate along j) by construction of the tree. Notably, the construction of the tree and the cartesian sort grid have essentially the same runtime (see benchmark mentioned in Quick Start section).
+There is an interesting parallel to draw between the data structure produced by `Cartesian Grid Sort` (i.e. a spatially coherent, monotonic multi-index) and the standard `KDTree` data structure 🌲. In fact, when $N$ is an exact power of 2**D, the recursive partitioning path of each point in a KD-tree (left/down/left/up/right/up etc.) can be converted into an $[i,j]$ multi-index in a very natural way: left up cuts forms the 0/1 bits of the i index and up/down cuts for the j. The resulting grid $(x_{ij}, y_{ij})$ is then already sorted by construction: $x$ increases along one grid axis and $y$ increases along the other. This tree-to-grid can be generalised for non power of 2 N but requires to slightly modify the standard kdtree with extra cutting rules to respect hyper rectangular cardinality constraints .
 
-The main difference between KDTree and Cartesian Grid Sort is the paradigm. KDTree is coarse to fine and threshold based (left/right, up/down)  while Cartesian Grid Sort is purely linear (i/i+1, j/j+1), with row / column axes progressively following the local structure of the point cloud without strong discontinuities. What will really make a difference is the context where the data structure is used: if e.g. one is interested for the neighbors of a single target, KDTree is probably the best choice. If one need the neighbors of all the points, e.g. to apply a Convolution Neural Network on a geometric dataset, Cartesian Grid Sort offers a simple interface between efficient tensor based frameworks and unstructured point clouds.
+For complex geometries, an intersting sorting strategy is to mix both tree and grid structure:
+
+- Initialize the grid with the KD-tree based [i,j] index, to obtain a good warm start. The resulting grid already provides a spatially coherent distribution of the points.
+- Refine with the full multi axis procedure (both cartesian axes and diagonals), to locally smooth the artificial discontinuities introduced by the KD-tree's splitting thresholds.
 
 ---
 
